@@ -23,6 +23,17 @@ const realImages = [
   "/mebelivam-img/реални-завършени/img-22.jpg",
   "/mebelivam-img/реални-завършени/img-23.jpg",
   "/mebelivam-img/реални-завършени/img-24.jpg",
+  "/mebelivam-img/реални-завършени/img-25.jpg",
+  "/mebelivam-img/реални-завършени/img-26.jpg",
+  "/mebelivam-img/реални-завършени/img-27.jpg",
+  "/mebelivam-img/реални-завършени/img-28.jpg",
+  "/mebelivam-img/реални-завършени/img-29.jpg",
+  "/mebelivam-img/реални-завършени/img-30.jpg",
+  "/mebelivam-img/реални-завършени/img-31.jpg",
+  "/mebelivam-img/реални-завършени/img-32.jpg",
+  "/mebelivam-img/реални-завършени/img-33.jpg",
+  "/mebelivam-img/реални-завършени/img-34.jpg",
+  "/mebelivam-img/реални-завършени/img-35.jpg",
 ];
 
 export default realImages; 
