@@ -1,78 +1,84 @@
-import React from 'react';
-import { Phone, MapPin } from 'lucide-react';
+"use client";
+import React from "react";
+import { Phone, MapPin } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
+import { Logo } from "@/components/ui/logo";
 import scrollToSection from "@/utils/scrollTo";
 
 export default function Footer() {
-    return (
-        <footer className="bg-gray-50 py-16 px-6 border border-t-gray-300">
-            <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-                    {/* Logo Section */}
-                    <Link href="/" className="-m-1.5 p-1.5">
-                        <span className="sr-only">Your Company</span>
-                        <Image
-                            alt=""
-                            src="/logo.svg"
-                            className="w-auto size-35"
-                            width={150}
-                            height={150}
-                        />
-                    </Link>
+  return (
+    <footer className="border-t border-neutral-200 bg-neutral-50">
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
+          {/* Бранд */}
+          <div className="md:col-span-1">
+            <Logo markClassName="h-10 w-10" textClassName="text-2xl" />
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-neutral-600">
+              Мебели по поръчка, изработени до милиметър за вашия дом — с грижа, прецизност и стил.
+            </p>
+          </div>
 
-                    {/* МебелиВам Section */}
-                    <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-6">МебелиВам</h3>
-                        <nav className="space-y-4">
-                            <button onClick={()=>scrollToSection("services")} className="block text-gray-600 hover:text-orange-500 transition-colors">
-                                Услуги
-                            </button>
-                            <button onClick={()=>scrollToSection("about")} className="block text-gray-600 hover:text-orange-500 transition-colors">
-                                За нас
-                            </button>
-                            <button onClick={()=>scrollToSection("faq")} className="block text-gray-600 hover:text-orange-500 transition-colors">
-                                ЧЗВ
-                            </button>
-                            <button onClick={()=>scrollToSection("contact")} className="block text-gray-600 hover:text-orange-500 transition-colors">
-                                Оферти
-                            </button>
-                        </nav>
-                    </div>
+          {/* Навигация */}
+          <div>
+            <h3 className="mb-5 text-sm font-bold uppercase tracking-wider text-neutral-900">МебелиВам</h3>
+            <nav className="space-y-3">
+              {[
+                { label: "Как работим", id: "services" },
+                { label: "За нас", id: "about" },
+                { label: "ЧЗВ", id: "faq" },
+                { label: "Контакти", id: "contact" },
+              ].map((l) => (
+                <button
+                  key={l.id}
+                  onClick={() => scrollToSection(l.id)}
+                  className="block text-sm text-neutral-600 transition-colors hover:text-brand-600"
+                >
+                  {l.label}
+                </button>
+              ))}
+            </nav>
+          </div>
 
-                    {/* Полезни връзки Section */}
-                    <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-6">ПОЛЕЗНИ ВРЪЗКИ</h3>
-                        <nav className="space-y-4">
-                            <Link href="/privacy-policy" className="block text-gray-600 hover:text-orange-500 transition-colors">
-                                Политика за поверителност
-                            </Link>
-                        </nav>
-                    </div>
+          {/* Полезни връзки */}
+          <div>
+            <h3 className="mb-5 text-sm font-bold uppercase tracking-wider text-neutral-900">Полезни връзки</h3>
+            <nav className="space-y-3">
+              <Link href="/gallery" className="block text-sm text-neutral-600 transition-colors hover:text-brand-600">
+                Галерия
+              </Link>
+              <Link href="/v-vs-r" className="block text-sm text-neutral-600 transition-colors hover:text-brand-600">
+                Визуализация срещу реалност
+              </Link>
+              <Link
+                href="/privacy-policy"
+                className="block text-sm text-neutral-600 transition-colors hover:text-brand-600"
+              >
+                Политика за поверителност
+              </Link>
+            </nav>
+          </div>
 
-                    {/* Контакти Section */}
-                    <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-6">КОНТАКТИ</h3>
-                        <div className="space-y-4">
-                            <div className="flex items-center">
-                                <Phone className="w-5 h-5 text-orange-500 mr-3 flex-shrink-0" />
-                                <span className="text-gray-700">+359 88 813 3513</span>
-                            </div>
-                            <div className="flex items-start">
-                                <MapPin className="w-5 h-5 text-orange-500 mr-3 flex-shrink-0 mt-1" />
-                                <span className="text-gray-700">гр. Стара Загора, България</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Copyright */}
-                <div className="mt-12 pt-8 border-t border-gray-200">
-                    <p className="text-gray-500 text-sm">
-                        © 2025 Всички права са запазени.
-                    </p>
-                </div>
+          {/* Контакти */}
+          <div>
+            <h3 className="mb-5 text-sm font-bold uppercase tracking-wider text-neutral-900">Контакти</h3>
+            <div className="space-y-4 text-sm">
+              <a href="tel:+359888133513" className="flex items-center gap-3 text-neutral-700 hover:text-brand-600">
+                <Phone className="h-5 w-5 flex-none text-brand-500" />
+                +359 88 813 3513
+              </a>
+              <div className="flex items-start gap-3 text-neutral-700">
+                <MapPin className="mt-0.5 h-5 w-5 flex-none text-brand-500" />
+                гр. Стара Загора, България
+              </div>
             </div>
-        </footer>
-    );
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-neutral-200 pt-8 sm:flex-row">
+          <p className="text-sm text-neutral-500">© {new Date().getFullYear()} Мебели ВаМ ЕООД. Всички права запазени.</p>
+          <p className="text-sm text-neutral-400">Изработка по поръчка · Дизайн · Монтаж</p>
+        </div>
+      </div>
+    </footer>
+  );
 }

@@ -192,3 +192,102 @@
 .section {
   scroll-margin-top: 7rem;
 }
+
+/* ============================================================
+   МебелиВам — премиум дизайн система
+   ============================================================ */
+
+@theme {
+  --color-brand-50: #fff8f0;
+  --color-brand-100: #ffedd9;
+  --color-brand-200: #fed7aa;
+  --color-brand-300: #fdba74;
+  --color-brand-400: #fb9a3c;
+  --color-brand-500: #f5831f;
+  --color-brand-600: #e06f12;
+  --color-brand-700: #ba560f;
+  --color-brand-800: #944514;
+  --color-brand-900: #6f350f;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal-left  { transform: translateX(-40px); }
+.reveal-right { transform: translateX(40px); }
+.reveal-scale { transform: scale(0.94); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Keyframe animations ---------- */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+.animate-floaty { animation: floaty 6s ease-in-out infinite; }
+
+@keyframes floaty-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-22px); }
+}
+.animate-floaty-slow { animation: floaty-slow 9s ease-in-out infinite; }
+
+@keyframes ken-burns {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+.animate-ken-burns { animation: ken-burns 14s ease-out forwards; }
+
+@keyframes shine {
+  0%   { transform: translateX(-120%) skewX(-20deg); }
+  60%, 100% { transform: translateX(220%) skewX(-20deg); }
+}
+.animate-shine { animation: shine 3.2s ease-in-out infinite; }
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fade-in-up 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(245, 131, 31, 0.45); }
+  70%  { box-shadow: 0 0 0 16px rgba(245, 131, 31, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 131, 31, 0); }
+}
+.animate-pulse-ring { animation: pulse-ring 2.4s ease-out infinite; }
+
+/* ---------- Helpers ---------- */
+.font-heading { font-family: var(--font-heading), Georgia, serif; }
+
+.text-gradient-brand {
+  background: linear-gradient(90deg, #f5831f, #e06f12);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-warm {
+  background:
+    radial-gradient(1200px 600px at 85% -5%, #fff3e6 0%, transparent 55%),
+    radial-gradient(900px 500px at 0% 100%, #fbf7f1 0%, transparent 50%),
+    #ffffff;
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

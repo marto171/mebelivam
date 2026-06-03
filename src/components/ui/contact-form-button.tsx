@@ -1,45 +1,40 @@
-"use client"
-import React from 'react';
-import scrollToSection from "@/utils/scrollTo";
+import React from "react";
 import Link from "next/link";
+import { ArrowRight, Clock } from "lucide-react";
+import Reveal from "@/components/ui/reveal";
 
 export default function ContactFormButton() {
-    return (
-        <div className="max-w-3xl mx-auto px-4 py-8">
-            {/* Main Banner */}
-               <ContactButton onClick={() => scrollToSection("contact")}/>
-            {/* Important Note */}
-            <div className="mt-8 text-center">
-                <p className="text-gray-700 text-lg font-medium italic">
-                    <span className="font-bold text-gray-900">ВАЖНО:</span> На съобщенията от формата се отговаря в рамките на работния ден.
-                </p>
-            </div>
+  return (
+    <div className="px-5 py-16 sm:px-8">
+      <Reveal className="mx-auto max-w-4xl">
+        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-500 to-brand-600 px-6 py-12 text-center shadow-2xl shadow-brand-500/30 sm:px-12">
+          {/* декор */}
+          <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10" />
+          <div className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-black/10" />
 
-            {/* Decorative line */}
-            <div className="mt-6 w-full h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent"></div>
+          <h2 className="relative font-heading text-3xl font-bold leading-tight text-white sm:text-4xl">
+            Готови сте за дома на мечтите си?
+          </h2>
+          <p className="relative mx-auto mt-4 max-w-xl text-lg text-white/90">
+            Оставете данните си и получете безплатна консултация. Първата стъпка към перфектните мебели е на едно кликване.
+          </p>
+
+          <div className="relative mt-8 flex justify-center">
+            <Link
+              href="/#contact"
+              className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-brand-600 shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
+            >
+              Свържете се с нас
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          <p className="relative mt-6 inline-flex items-center gap-2 text-sm font-medium text-white/80">
+            <Clock className="h-4 w-4" />
+            Отговаряме на запитванията в рамките на работния ден.
+          </p>
         </div>
-    );
-}
-
-type ContactButtonProps = {
-    onClick?: () => void;
-    className?: string;
-};
-
-function ContactButton({ className = "" }: ContactButtonProps) {
-    return (
-        <div className={`inline-block ${className}`}>
-            <div className="relative">
-                <Link
-                    href="/#contact"
-                    className="relative bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white px-8 py-6 shadow-lg transition-all duration-200 transform hover:scale-105 hover:shadow-xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300 focus:ring-opacity-50 block text-center"
-                >
-                    <h2 className="text-xl md:text-2xl font-bold text-center tracking-wide">
-                        СВЪРЖИ СЕ С НАС ЧРЕЗ ФОРМАТА ЗА ПОПЪЛВАНЕ
-                    </h2>
-                </Link>
-                <div className="absolute top-2 left-2 w-full h-full bg-orange-600 -z-10 transition-all duration-200"></div>
-            </div>
-        </div>
-    );
+      </Reveal>
+    </div>
+  );
 }

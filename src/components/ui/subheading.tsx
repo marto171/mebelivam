@@ -6,7 +6,7 @@ interface HeadingProps extends HTMLAttributes<HTMLHeadElement> {
 }
 
 export const Subheading = ({ children, className, ...props }: HeadingProps) => {
-    return <span className={cn("text-orange-500 font-bold text-sm sm:text-base md:text-lg lg:text-xl mb-2 tracking-widest uppercase", className)}{...props}>
+    return <span className={cn("inline-block text-brand-500 font-bold text-sm sm:text-base md:text-lg mb-3 tracking-widest uppercase", className)}{...props}>
         {children}
     </span>
 }

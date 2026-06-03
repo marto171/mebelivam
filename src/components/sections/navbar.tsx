@@ -1,388 +1,229 @@
-'use client'
+"use client";
 
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 import {
-    Dialog,
-    DialogPanel,
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
-    Popover,
-    PopoverButton,
-    PopoverGroup,
-    PopoverPanel,
-} from '@headlessui/react'
-import {
-    Bars3Icon,
-    XMarkIcon,
-} from '@heroicons/react/24/outline'
-import {ChevronDownIcon, PhoneIcon, PlayCircleIcon} from '@heroicons/react/20/solid'
-import Image from "next/image"
-import {LucideImages, SquareDashedMousePointer} from "lucide-react";
-
-const products = [
-    {name: 'Галерия', description: 'Разгледайте снимки на нашите проекти', href: '/gallery', icon: LucideImages},
-    {name: 'Визуализация срещу реалност', description: 'Вижте реализирани модели на проекти', href: '/v-vs-r', icon: SquareDashedMousePointer},
-]
-const callsToAction = [
-    {name: 'Виж видео', href: '#video', icon: PlayCircleIcon},
-    {name: 'Свържи се с нас', href: '#contact', icon: PhoneIcon},
-]
-
-import {MaxWidthWrapper} from "@/components/max-width-wrapper"
-import Link from "next/link"
-import {Button} from "@/components/ui/button";
+  Dialog,
+  DialogPanel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Popover,
+  PopoverButton,
+  PopoverGroup,
+  PopoverPanel,
+} from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
+import { LucideImages, SquareDashedMousePointer, Phone } from "lucide-react";
+import Link from "next/link";
+import { MaxWidthWrapper } from "@/components/max-width-wrapper";
+import { Logo } from "@/components/ui/logo";
 import scrollToSection from "@/utils/scrollTo";
 
+const products = [
+  { name: "Галерия", description: "Разгледайте снимки на нашите проекти", href: "/gallery", icon: LucideImages },
+  {
+    name: "Визуализация срещу реалност",
+    description: "Сравнете проект и реален резултат",
+    href: "/v-vs-r",
+    icon: SquareDashedMousePointer,
+  },
+];
+const callsToAction = [
+  { name: "Виж видео", href: "/#video", icon: PlayCircleIcon },
+  { name: "Свържи се с нас", href: "/#contact", icon: PhoneIcon },
+];
+
+const navLink = "text-sm font-semibold text-neutral-700 hover:text-brand-600 transition-colors";
+
 export const Navbar = () => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [isScrolled, setIsScrolled] = useState(false)
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 0)
-        }
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-    const handleMobileNavClick = (id: string) => {
-        setMobileMenuOpen(false);
-        scrollToSection(id);
-    };
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    return <nav
-        className={`sticky z-[100] h-28 inset-x-0 top-0 w-full border-b backdrop-blur-sm transition-all p-4 lg:p-6 
-      ${isScrolled ? 'bg-white/40 shadow-md border-gray-300' : 'bg-transparent border-gray-200'}`}
+  const handleMobileNavClick = (id: string) => {
+    setMobileMenuOpen(false);
+    scrollToSection(id);
+  };
+
+  return (
+    <nav
+      className={`sticky inset-x-0 top-0 z-[100] w-full transition-all duration-300 ${
+        isScrolled
+          ? "border-b border-neutral-200/80 bg-white/85 py-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.05)] backdrop-blur-md"
+          : "border-b border-transparent bg-white/0 py-4"
+      }`}
     >
-        <MaxWidthWrapper>
-            <div className="flex h-16 items-center justify-between ">
-                <div className="flex lg:flex-1">
-                    <Link href="/" className="-m-1.5 p-1.5">
-                        <span className="sr-only">Your Company</span>
-                        <Image
-                            alt=""
-                            src="/logo.svg"
-                            className="w-auto size-15"
-                            width={150}
-                            height={150}
-                        />
-                    </Link>
-                </div>
-                <div className="flex lg:hidden">
-                    <button
-                        type="button"
-                        onClick={() => setMobileMenuOpen(true)}
-                        className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5  ${isScrolled ? 'text-gray-800' : 'text-gray-100'}`}
+      <MaxWidthWrapper>
+        <div className="flex items-center justify-between">
+          <Link href="/" aria-label="Мебели ВаМ — начало" className="shrink-0">
+            <Logo markClassName="h-9 w-9" textClassName="text-xl sm:text-2xl" />
+          </Link>
+
+          {/* Desktop nav */}
+          <PopoverGroup className="hidden items-center gap-x-9 lg:flex">
+            <Link href="/#services" className={navLink}>
+              Как работим
+            </Link>
+            <Popover className="relative">
+              <PopoverButton className={`flex items-center gap-x-1 outline-none ${navLink}`}>
+                Проекти
+                <ChevronDownIcon aria-hidden="true" className="size-4 text-neutral-400" />
+              </PopoverButton>
+              <PopoverPanel
+                transition
+                className="absolute left-1/2 z-10 mt-4 w-screen max-w-sm -translate-x-1/2 overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-neutral-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+              >
+                <div className="p-3">
+                  {products.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="group relative flex items-center gap-x-4 rounded-xl p-3 hover:bg-brand-50"
                     >
-                        <span className="sr-only">Open main menu</span>
-                        <Bars3Icon aria-hidden="true" className="size-6"/>
-                    </button>
-                </div>
-                <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-                    <Link href="#services" className={`text-sm/6 font-semibold ${isScrolled ? 'text-black' : 'text-white'}`}>
-                        Услуги
+                      <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-brand-50 group-hover:bg-white">
+                        <item.icon aria-hidden="true" className="size-6 text-brand-500" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-neutral-900">{item.name}</p>
+                        <p className="mt-0.5 text-sm text-neutral-500">{item.description}</p>
+                      </div>
                     </Link>
-                    <Popover className="relative">
-                        <PopoverButton className={`flex items-center gap-x-1 text-sm/6 font-semibold ${isScrolled ? 'text-black' : 'text-white'}`}>
-                            Проекти
-                            <ChevronDownIcon aria-hidden="true" className={`size-5 flex-none ${isScrolled ? 'text-gray-600' : 'text-gray-300'} `}/>
-                        </PopoverButton>
+                  ))}
+                </div>
+                <div className="grid grid-cols-2 divide-x divide-neutral-900/5 bg-neutral-50">
+                  {callsToAction.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="flex items-center justify-center gap-x-2 p-3 text-sm font-semibold text-neutral-700 hover:bg-neutral-100"
+                    >
+                      <item.icon aria-hidden="true" className="size-5 flex-none text-brand-500" />
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </PopoverPanel>
+            </Popover>
+            <Link href="/#about" className={navLink}>
+              За нас
+            </Link>
+            <Link href="/#faq" className={navLink}>
+              ЧЗВ
+            </Link>
+          </PopoverGroup>
 
-                        <PopoverPanel
-                            transition
-                            className="absolute left-1/2 z-10 mt-3 w-screen max-w-md -translate-x-1/2 overflow-hidden rounded-3xl bg-orange-300 shadow-lg ring-1 ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-                        >
-                            <div className="p-4">
-                                {products.map((item) => (
-                                    <div
-                                        key={item.name}
-                                        className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-orange-100"
-                                    >
-                                        <div
-                                            className="flex size-11 flex-none items-center justify-center rounded-lg bg-orange-50 group-hover:bg-white">
-                                            <item.icon aria-hidden="true"
-                                                       className="size-6 text-gray-600 group-hover:text-orange-600"/>
-                                        </div>
-                                        <div className="flex-auto">
-                                            <Link href={item.href} className="block font-semibold text-gray-900">
-                                                {item.name}
-                                                <span className="absolute inset-0"/>
-                                            </Link>
-                                            <p className="mt-1 text-gray-600">{item.description}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-orange-100">
-                                {callsToAction.map((item) => (
-                                    <Link
-                                        key={item.name}
-                                        href={item.href}
-                                        className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
-                                    >
-                                        <item.icon aria-hidden="true" className="size-5 flex-none text-gray-400"/>
-                                        {item.name}
-                                    </Link>
-                                ))}
-                            </div>
-                        </PopoverPanel>
-                    </Popover>
-                    <Link href="#about" className={`text-sm/6 font-semibold ${isScrolled ? 'text-black' : 'text-white'}`}>
-                        За Нас
-                    </Link>
-                    <Link href="#faq"className={`text-sm/6 font-semibold ${isScrolled ? 'text-black' : 'text-white'}`}>
-                        ЧЗВ
-                    </Link>
-                </PopoverGroup>
-                <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Button onClick={() => handleMobileNavClick("contact")} className="cursor-pointer">Свържете се с нас</Button>
-                </div>
-                <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-                    <div className="fixed inset-0 z-50"/>
-                    <DialogPanel
-                        className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                        <div className="flex items-center justify-between">
-                            <Link href="/" className="-m-1.5 p-1.5">
-                                <span className="sr-only">Your Company</span>
-                                <Image
-                                    alt=""
-                                    src="/logo.svg"
-                                    className="w-auto size-15"
-                                    width={150}
-                                    height={150}
-                                />
-                            </Link>
-                            <button
-                                type="button"
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                            >
-                                <span className="sr-only">Close menu</span>
-                                <XMarkIcon aria-hidden="true" className="size-6"/>
-                            </button>
-                        </div>
-                        <div className="mt-6 flow-root">
-                            <div className="-my-6 divide-y divide-gray-500/10">
-                                <div className="space-y-2 py-6">
-                                    <Link
-                                        href="#services"
-                                        onClick={() => handleMobileNavClick('services')}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                    >
-                                        Услуги
-                                    </Link>
-                                    <Disclosure as="div" className="-mx-3">
-                                        <DisclosureButton
-                                            className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-                                            Проекти
-                                            <ChevronDownIcon aria-hidden="true"
-                                                             className="size-5 flex-none group-data-open:rotate-180"/>
-                                        </DisclosureButton>
-                                        <DisclosurePanel className="mt-2 space-y-2">
-                                            {[...products, ...callsToAction].map((item) => (
-                                                <DisclosureButton
-                                                    key={item.name}
-                                                    as="a"
-                                                    href={item.href}
-                                                    onClick={() => handleMobileNavClick(item.href)}
-                                                    className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                                >
-                                                    {item.name}
-                                                </DisclosureButton>
-                                            ))}
-                                        </DisclosurePanel>
-                                    </Disclosure>
-                                    <Link
-                                        href="#about"
-                                        onClick={() => handleMobileNavClick('about')}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                    >
-                                        За Нас
-                                    </Link>
-                                    <Link
-                                        href="#faq"
-                                        onClick={() => handleMobileNavClick('faq')}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                    >
-                                        ЧЗВ
-                                    </Link>
-                                </div>
-                                <div className="py-6">
-                                    <Button onClick={() => handleMobileNavClick('contact')} className="cursor-pointer">Свържете се с нас</Button>
-                                </div>
-                            </div>
-                        </div>
-                    </DialogPanel>
-                </Dialog>
+          {/* Desktop CTA */}
+          <div className="hidden items-center gap-4 lg:flex">
+            <a
+              href="tel:+359888133513"
+              className="flex items-center gap-2 text-sm font-semibold text-neutral-800 hover:text-brand-600"
+            >
+              <Phone className="h-4 w-4 text-brand-500" />
+              0888 133 513
+            </a>
+            <button
+              onClick={() => scrollToSection("contact")}
+              className="rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-500/20 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-500/30"
+            >
+              Безплатна консултация
+            </button>
+          </div>
+
+          {/* Mobile burger */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-neutral-800 lg:hidden"
+          >
+            <span className="sr-only">Отвори меню</span>
+            <Bars3Icon aria-hidden="true" className="size-7" />
+          </button>
+        </div>
+      </MaxWidthWrapper>
+
+      {/* Mobile menu */}
+      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
+        <div className="fixed inset-0 z-[110] bg-neutral-900/30 backdrop-blur-sm" />
+        <DialogPanel className="fixed inset-y-0 right-0 z-[120] w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-neutral-900/10">
+          <div className="flex items-center justify-between">
+            <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+              <Logo markClassName="h-9 w-9" textClassName="text-xl" />
+            </Link>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="-m-2.5 rounded-md p-2.5 text-neutral-700"
+            >
+              <span className="sr-only">Затвори меню</span>
+              <XMarkIcon aria-hidden="true" className="size-6" />
+            </button>
+          </div>
+          <div className="mt-6 flow-root">
+            <div className="-my-6 divide-y divide-neutral-200">
+              <div className="space-y-1 py-6">
+                <button
+                  onClick={() => handleMobileNavClick("services")}
+                  className="-mx-3 block w-full rounded-lg px-3 py-2 text-left text-base font-semibold text-neutral-900 hover:bg-neutral-50"
+                >
+                  Как работим
+                </button>
+                <Disclosure as="div" className="-mx-3">
+                  <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base font-semibold text-neutral-900 hover:bg-neutral-50">
+                    Проекти
+                    <ChevronDownIcon aria-hidden="true" className="size-5 flex-none group-data-open:rotate-180" />
+                  </DisclosureButton>
+                  <DisclosurePanel className="mt-1 space-y-1">
+                    {products.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block rounded-lg py-2 pr-3 pl-6 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </DisclosurePanel>
+                </Disclosure>
+                <button
+                  onClick={() => handleMobileNavClick("about")}
+                  className="-mx-3 block w-full rounded-lg px-3 py-2 text-left text-base font-semibold text-neutral-900 hover:bg-neutral-50"
+                >
+                  За нас
+                </button>
+                <button
+                  onClick={() => handleMobileNavClick("faq")}
+                  className="-mx-3 block w-full rounded-lg px-3 py-2 text-left text-base font-semibold text-neutral-900 hover:bg-neutral-50"
+                >
+                  ЧЗВ
+                </button>
+              </div>
+              <div className="space-y-3 py-6">
+                <a
+                  href="tel:+359888133513"
+                  className="flex items-center justify-center gap-2 rounded-full border border-neutral-200 px-5 py-3 text-base font-semibold text-neutral-800"
+                >
+                  <Phone className="h-5 w-5 text-brand-500" />
+                  0888 133 513
+                </a>
+                <button
+                  onClick={() => handleMobileNavClick("contact")}
+                  className="w-full rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-3 text-base font-bold text-white shadow-md"
+                >
+                  Безплатна консултация
+                </button>
+              </div>
             </div>
-        </MaxWidthWrapper>
+          </div>
+        </DialogPanel>
+      </Dialog>
     </nav>
-}
-
-// export const Navbar2 = () => {
-//     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-//     return <nav className="sticky z-[100] h-28 inset-x-0 top-0 w-full border-b border-gray-200 backdrop-blur-sm bg-white
-//   transition-all p-4 lg:p-6">
-//         <MaxWidthWrapper>
-//             <div className="flex h-16 items-center justify-between ">
-//                 <div className="flex lg:flex-1">
-//                     <Link href="/public" className="-m-1.5 p-1.5">
-//                         <span className="sr-only">Your Company</span>
-//                         <Image
-//                             alt=""
-//                             src="/logo.svg"
-//                             className="w-auto size-15"
-//                             width={150}
-//                             height={150}
-//                         />
-//                     </Link>
-//                 </div>
-//                 <div className="flex lg:hidden">
-//                     <button
-//                         type="button"
-//                         onClick={() => setMobileMenuOpen(true)}
-//                         className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-//                     >
-//                         <span className="sr-only">Open main menu</span>
-//                         <Bars3Icon aria-hidden="true" className="size-6"/>
-//                     </button>
-//                 </div>
-//                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-//                     <a href="#services" className="text-sm/6 font-semibold text-white">
-//                         Услуги
-//                     </a>
-//                     <Popover className="relative">
-//                         <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-white">
-//                             Проекти
-//                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-300"/>
-//                         </PopoverButton>
-//
-//                         <PopoverPanel
-//                             transition
-//                             className="absolute left-1/2 z-10 mt-3 w-screen max-w-md -translate-x-1/2 overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-//                         >
-//                             <div className="p-4">
-//                                 {products.map((item) => (
-//                                     <div
-//                                         key={item.name}
-//                                         className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-//                                     >
-//                                         <div
-//                                             className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-//                                             <item.icon aria-hidden="true"
-//                                                        className="size-6 text-gray-600 group-hover:text-indigo-600"/>
-//                                         </div>
-//                                         <div className="flex-auto">
-//                                             <a href={item.href} className="block font-semibold text-gray-900">
-//                                                 {item.name}
-//                                                 <span className="absolute inset-0"/>
-//                                             </a>
-//                                             <p className="mt-1 text-gray-600">{item.description}</p>
-//                                         </div>
-//                                     </div>
-//                                 ))}
-//                             </div>
-//                             <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-//                                 {callsToAction.map((item) => (
-//                                     <a
-//                                         key={item.name}
-//                                         href={item.href}
-//                                         className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
-//                                     >
-//                                         <item.icon aria-hidden="true" className="size-5 flex-none text-gray-400"/>
-//                                         {item.name}
-//                                     </a>
-//                                 ))}
-//                             </div>
-//                         </PopoverPanel>
-//                     </Popover>
-//                     <a href="#" className="text-sm/6 font-semibold text-white">
-//                         За Нас
-//                     </a>
-//                     <a href="#" className="text-sm/6 font-semibold text-white">
-//                         ЧЗВ
-//                     </a>
-//                 </PopoverGroup>
-//                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-//                     <Button>Свържете се с нас</Button>
-//                 </div>
-//                 <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-//                     <div className="fixed inset-0 z-50"/>
-//                     <DialogPanel
-//                         className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-//                         <div className="flex items-center justify-between">
-//                             <a href="#" className="-m-1.5 p-1.5">
-//                                 <span className="sr-only">Your Company</span>
-//                                 <img
-//                                     alt=""
-//                                     src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-//                                     className="h-8 w-auto"
-//                                 />
-//                             </a>
-//                             <button
-//                                 type="button"
-//                                 onClick={() => setMobileMenuOpen(false)}
-//                                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
-//                             >
-//                                 <span className="sr-only">Close menu</span>
-//                                 <XMarkIcon aria-hidden="true" className="size-6"/>
-//                             </button>
-//                         </div>
-//                         <div className="mt-6 flow-root">
-//                             <div className="-my-6 divide-y divide-gray-500/10">
-//                                 <div className="space-y-2 py-6">
-//                                     <Disclosure as="div" className="-mx-3">
-//                                         <DisclosureButton
-//                                             className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-//                                             Product
-//                                             <ChevronDownIcon aria-hidden="true"
-//                                                              className="size-5 flex-none group-data-open:rotate-180"/>
-//                                         </DisclosureButton>
-//                                         <DisclosurePanel className="mt-2 space-y-2">
-//                                             {[...products, ...callsToAction].map((item) => (
-//                                                 <DisclosureButton
-//                                                     key={item.name}
-//                                                     as="a"
-//                                                     href={item.href}
-//                                                     className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50"
-//                                                 >
-//                                                     {item.name}
-//                                                 </DisclosureButton>
-//                                             ))}
-//                                         </DisclosurePanel>
-//                                     </Disclosure>
-//                                     <a
-//                                         href="#"
-//                                         className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-//                                     >
-//                                         Features
-//                                     </a>
-//                                     <a
-//                                         href="#"
-//                                         className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-//                                     >
-//                                         Marketplace
-//                                     </a>
-//                                     <a
-//                                         href="#"
-//                                         className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-//                                     >
-//                                         Company
-//                                     </a>
-//                                 </div>
-//                                 <div className="py-6">
-//                                     <a
-//                                         href="#"
-//                                         className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-//                                     >
-//                                         Log in
-//                                     </a>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </DialogPanel>
-//                 </Dialog>
-//             </div>
-//         </MaxWidthWrapper>
-//     </nav>
-// }
+  );
+};

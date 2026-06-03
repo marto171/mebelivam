@@ -1,111 +1,81 @@
-import React from 'react';
-import {Heading} from "@/components/ui/heading";
-import {Subheading} from "@/components/ui/subheading";
-import {PhoneCall, PhoneIncoming} from "lucide-react";
+import React from "react";
+import { Heading } from "@/components/ui/heading";
+import { Subheading } from "@/components/ui/subheading";
 import Image from "next/image";
+import { PhoneIncoming, PhoneCall, UserCheck, Clock } from "lucide-react";
+import Reveal from "@/components/ui/reveal";
 
-const Info = () => {
-    return (
-        <div className="bg-gray-50 py-16 px-4">
-            <div className="max-w-6xl mx-auto">
-                {/* Header */}
-                <div className="text-center mb-12">
-                    <Subheading>Информация</Subheading>
-                    <Heading>
-                        Какво следва, след като оставиш данните<br />
-                        си СЕГА?
-                    </Heading>
-                    <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                        След като попълниш формата, ето какво можеш да очакваш:
-                    </p>
+const benefits = [
+  {
+    icon: PhoneIncoming,
+    title: "Експресна връзка",
+    text: "Наш експерт ще се свърже с вас в рамките на деня (най-късно до 24 часа), за да уточним удобно време за консултация.",
+  },
+  {
+    icon: PhoneCall,
+    title: "Безплатна 30-минутна сесия",
+    text: "Провеждаме индивидуална консултация, в която обсъждаме нуждите ви и чертаем пътна карта за вашето пространство.",
+  },
+  {
+    icon: UserCheck,
+    title: "Персонализирано решение",
+    text: "Създаваме мебелите на мечтите ви — съобразени с вашия бюджет, стил и пространство, без компромиси.",
+  },
+  {
+    icon: Clock,
+    title: "Спестено време и усилия",
+    text: "Край на обикалянето по магазини. С наша помощ стигате до перфектното решение бързо и лесно.",
+  },
+];
+
+export default function Info() {
+  return (
+    <div className="bg-white py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <Reveal className="mx-auto mb-14 max-w-2xl text-center">
+          <Subheading>Какво следва</Subheading>
+          <Heading>Какво се случва, след като оставите данните си?</Heading>
+          <p className="mt-3 text-lg text-neutral-600">След като попълните формата, ето какво можете да очаквате:</p>
+        </Reveal>
+
+        <div className="mb-16 grid gap-6 md:grid-cols-2">
+          {benefits.map((b, i) => (
+            <Reveal key={b.title} delay={i * 90}>
+              <div className="group flex h-full gap-5 rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-brand-100 hover:shadow-lg">
+                <div className="flex size-14 flex-none items-center justify-center rounded-2xl bg-brand-50 text-brand-500 transition-colors group-hover:bg-brand-500 group-hover:text-white">
+                  <b.icon className="h-7 w-7" />
                 </div>
-
-                {/* Benefits Grid */}
-                <div className="grid md:grid-cols-2 gap-8 mb-16">
-                    {/* Benefit 1 */}
-                    <div className="flex gap-4">
-                        <div className="flex-shrink-0">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-                                {/*<svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">*/}
-                                {/*    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />*/}
-                                {/*</svg>*/}
-                                <PhoneIncoming className="w-8 h-8 text-orange-500"/>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">Експресна връзка</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                Един от нашите експерти ще се свърже с теб в рамките на днешния ден (или най-късно до 24 часа), за да уточним най-удобното време за твоя лична консултация.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Benefit 2 */}
-                    <div className="flex gap-4">
-                        <div className="flex-shrink-0">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-                               <PhoneCall className="w-8 h-8 text-orange-500"/>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">Безплатна 30-минутна сесия</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                Ще проведем твоята индивидуална, безплатна 30-минутна консултация, по време на която ще обсъдим твоите нужди, ще ти дадем конкретни съвети и ще начертаем пътна карта за обзавеждането на твоето пространство.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Benefit 3 */}
-                    <div className="flex gap-4">
-                        <div className="flex-shrink-0">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-                                <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">Персонализирано решение</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                Ще разберем как можем да ти помогнем да създадеш мебелите на мечтите си, съобразени с твоя бюджет, стил и пространство – без компромиси!
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Benefit 4 */}
-                    <div className="flex gap-4">
-                        <div className="flex-shrink-0">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-                                <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">Спестено време и усилия</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                Край на обикалянето по магазини и чудението! С наша помощ ще стигнеш до перфектното решение бързо и лесно.
-                            </p>
-                        </div>
-                    </div>
+                <div>
+                  <h3 className="mb-2 text-lg font-bold text-neutral-900">{b.title}</h3>
+                  <p className="leading-relaxed text-neutral-600">{b.text}</p>
                 </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
 
-                {/* Video Section */}
-                <div className="text-center" id="video">
-                    <p className="text-gray-600 text-lg mb-6">
-                        (изгледай видеото, за повече информация)
-                    </p>
-
-                    <div className="relative max-w-2xl mx-auto">
-                        <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                            {/* Video Thumbnail */}
-                            <Image src="/mebelivam-img/how-we-do-it.png" width={1000} height={1000} alt="tumbnail"/>
-                    </div>
-                </div>
+        {/* Видео */}
+        <Reveal className="text-center" variant="scale">
+          <p className="mb-6 text-neutral-500">Изгледайте видеото за повече информация</p>
+          <div id="video" className="section group relative mx-auto max-w-3xl overflow-hidden rounded-3xl shadow-2xl ring-1 ring-black/5">
+            <Image
+              src="/mebelivam-img/how-we-do-it.png"
+              alt="Как изработваме мебели по поръчка"
+              width={1920}
+              height={1080}
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="h-auto w-full"
+            />
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <span className="flex size-20 items-center justify-center rounded-full bg-white/90 shadow-xl transition-transform group-hover:scale-110">
+                <svg className="ml-1 h-8 w-8 text-brand-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
             </div>
-        </div>
-        </div>
-    );
-};
-
-export default Info;
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  );
+}
