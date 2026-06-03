@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     },
     description: "",
     icons: [{ rel: "icon", url: "/favicon.ico" }],
+    other: { "deploy-test": "2026-06-03" },
 };
 
 export default function RootLayout({
