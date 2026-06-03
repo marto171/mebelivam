@@ -21,11 +21,11 @@ export default function About() {
             <div className="relative mx-auto max-w-md">
               <div className="absolute -inset-3 -rotate-2 rounded-[2rem] bg-brand-100/60" />
               <Image
-                className="relative aspect-[4/5] w-full rounded-[2rem] object-cover shadow-xl ring-1 ring-black/5"
-                src="/mebelivam-img/stock/kitchen-installation.jpg"
-                alt="Майстор Васил Витанов при монтаж на мебели по поръчка"
-                width={1000}
-                height={1250}
+                className="relative aspect-[4/5] w-full rounded-[2rem] object-cover object-top shadow-xl ring-1 ring-black/5"
+                src="/mebelivam-img/vasil-vitanov.jpg"
+                alt="Васил Витанов — основател на Мебели ВаМ"
+                width={1600}
+                height={1567}
                 sizes="(max-width: 1024px) 100vw, 450px"
               />
               <div className="absolute -bottom-5 left-6 rounded-2xl bg-white px-5 py-3 shadow-xl ring-1 ring-black/5">
