@@ -1,9 +1,9 @@
 import React from "react";
 import { Heading } from "@/components/ui/heading";
 import { Subheading } from "@/components/ui/subheading";
-import Image from "next/image";
 import { PhoneIncoming, PhoneCall, UserCheck, Clock } from "lucide-react";
 import Reveal from "@/components/ui/reveal";
+import VideoPlayer from "@/components/ui/video-player";
 
 const benefits = [
   {
@@ -56,23 +56,12 @@ export default function Info() {
 
         {/* Видео */}
         <Reveal className="text-center" variant="scale">
-          <p className="mb-6 text-neutral-500">Изгледайте видеото за повече информация</p>
-          <div id="video" className="section group relative mx-auto max-w-3xl overflow-hidden rounded-3xl shadow-2xl ring-1 ring-black/5">
-            <Image
-              src="/mebelivam-img/how-we-do-it.png"
-              alt="Как изработваме мебели по поръчка"
-              width={1920}
-              height={1080}
-              sizes="(max-width: 768px) 100vw, 768px"
-              className="h-auto w-full"
+          <p className="mb-6 text-neutral-500">Вижте как клиентите ни се радват на своите кухни</p>
+          <div id="video" className="section mx-auto max-w-3xl">
+            <VideoPlayer
+              src="/video/mebelivam-kitchens.mp4"
+              poster="/mebelivam-img/video-poster.jpg"
             />
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <span className="flex size-20 items-center justify-center rounded-full bg-white/90 shadow-xl transition-transform group-hover:scale-110">
-                <svg className="ml-1 h-8 w-8 text-brand-500" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </span>
-            </div>
           </div>
         </Reveal>
       </div>
