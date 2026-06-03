@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { Star, ShieldCheck, Ruler, ArrowRight, Sparkles } from "lucide-react";
+import { Star, MapPin, Clock, ArrowRight, Sparkles } from "lucide-react";
 import scrollToSection from "@/utils/scrollTo";
 
 const Hero = () => {
@@ -16,7 +16,7 @@ const Hero = () => {
         <div className="relative z-10 max-w-xl">
           <div className="animate-fade-in-up inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/70 px-4 py-1.5 text-sm font-semibold text-brand-700 shadow-sm backdrop-blur">
             <Sparkles className="h-4 w-4 text-brand-500" />
-            Мебели по поръчка · изработка до милиметър
+            Мебели по поръчка · Стара Загора
           </div>
 
           <h1
@@ -31,8 +31,9 @@ const Hero = () => {
             className="animate-fade-in-up mt-6 text-lg leading-relaxed text-neutral-600"
             style={{ animationDelay: "160ms" }}
           >
-            Проектираме и изработваме кухни, гардероби и обзавеждане за цял дом — съобразени
-            до сантиметър с вашето пространство, стил и бюджет. Без компромиси, без главоболия.
+            Проектираме и изработваме кухни, гардероби и обзавеждане по поръчка — до милиметър за
+            вашето пространство. Запазете <b className="font-semibold text-neutral-800">безплатен оглед на място</b> и
+            получете оферта без ангажимент.
           </p>
 
           <div
@@ -43,7 +44,7 @@ const Hero = () => {
               onClick={() => scrollToSection("contact")}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-7 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-500/40"
             >
-              Запазете безплатна консултация
+              Запишете безплатен оглед
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </button>
             <button
@@ -53,6 +54,13 @@ const Hero = () => {
               Вижте проектите ни
             </button>
           </div>
+
+          <p
+            className="animate-fade-in-up mt-4 text-sm font-medium text-neutral-500"
+            style={{ animationDelay: "280ms" }}
+          >
+            Безплатен оглед на място — само за Стара Загора и региона.
+          </p>
 
           {/* trust ред */}
           <div
@@ -65,15 +73,15 @@ const Hero = () => {
                   <Star key={i} className="h-5 w-5 fill-brand-400 text-brand-400" />
                 ))}
               </div>
-              <span className="text-sm font-semibold text-neutral-700">Доволни клиенти</span>
+              <span className="text-sm font-semibold text-neutral-700">Десетки доволни клиенти</span>
             </div>
             <div className="flex items-center gap-2 text-sm font-semibold text-neutral-700">
-              <ShieldCheck className="h-5 w-5 text-brand-500" />
-              Гаранция за монтаж
+              <MapPin className="h-5 w-5 text-brand-500" />
+              Оглед на място · Стара Загора
             </div>
             <div className="flex items-center gap-2 text-sm font-semibold text-neutral-700">
-              <Ruler className="h-5 w-5 text-brand-500" />
-              Безплатен оглед
+              <Clock className="h-5 w-5 text-brand-500" />
+              Отговаряме до 24 ч
             </div>
           </div>
         </div>

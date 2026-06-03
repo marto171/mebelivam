@@ -9,12 +9,11 @@ import Image from "next/image";
 import { Heading } from "@/components/ui/heading";
 import { Subheading } from "@/components/ui/subheading";
 
-// Zod схема за валидация
+// Zod схема за валидация — минимум триене: само име + телефон са задължителни
 const schema = z.object({
   name: z.string().min(1, "Името е задължително"),
-  phone: z.string().min(1, "Телефонът е задължителен"),
-  city: z.string().min(1, "Градът е задължителен"),
-  email: z.string().email("Невалиден имейл").min(1, "Имейлът е задължителен"),
+  phone: z.string().min(6, "Въведете валиден телефон"),
+  email: z.string().email("Невалиден имейл").optional().or(z.literal("")),
   message: z.string().optional(),
 });
 
@@ -62,10 +61,11 @@ export default function Contact() {
     <section className="bg-warm py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="mb-14 text-center">
-          <Subheading>Свържете се с нас</Subheading>
-          <Heading>Вземете безплатна консултация</Heading>
+          <Subheading>Безплатен оглед</Subheading>
+          <Heading>Запишете безплатен оглед на място</Heading>
           <p className="mx-auto mt-3 max-w-2xl text-lg text-neutral-600">
-            Попълнете формата и наш експерт ще се свърже с вас в рамките на работния ден.
+            Оставете име и телефон — обаждаме се до 24 часа, за да уговорим оглед.
+            Безплатно и без ангажимент, само за Стара Загора и региона.
           </p>
         </div>
 
@@ -77,7 +77,7 @@ export default function Contact() {
                 <CheckCircle2 className="h-16 w-16 text-green-500" />
                 <h3 className="mt-4 font-heading text-2xl font-bold text-neutral-900">Благодарим ви!</h3>
                 <p className="mt-2 text-neutral-600">
-                  Запитването е получено успешно. Ще се свържем с вас съвсем скоро.
+                  Получихме запитването ви. Ще се обадим до 24 часа, за да уговорим вашия безплатен оглед.
                 </p>
               </div>
             ) : (
@@ -86,25 +86,26 @@ export default function Contact() {
                   <input type="text" {...register("name")} placeholder="Вашето име" className={inputClass} />
                   {errors.name && <span className="mt-1 block text-sm text-red-500">{errors.name.message}</span>}
                 </div>
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <input type="tel" {...register("phone")} placeholder="Телефон" className={inputClass} />
-                    {errors.phone && <span className="mt-1 block text-sm text-red-500">{errors.phone.message}</span>}
-                  </div>
-                  <div>
-                    <input type="text" {...register("city")} placeholder="Град" className={inputClass} />
-                    {errors.city && <span className="mt-1 block text-sm text-red-500">{errors.city.message}</span>}
-                  </div>
+                <div>
+                  <input
+                    type="tel"
+                    {...register("phone")}
+                    placeholder="Телефон"
+                    className={inputClass}
+                    inputMode="tel"
+                    autoComplete="tel"
+                  />
+                  {errors.phone && <span className="mt-1 block text-sm text-red-500">{errors.phone.message}</span>}
                 </div>
                 <div>
-                  <input type="email" {...register("email")} placeholder="Имейл" className={inputClass} />
+                  <input type="email" {...register("email")} placeholder="Имейл (по желание)" className={inputClass} />
                   {errors.email && <span className="mt-1 block text-sm text-red-500">{errors.email.message}</span>}
                 </div>
                 <div>
                   <textarea
                     {...register("message")}
-                    placeholder="Съобщение (по желание)"
-                    rows={4}
+                    placeholder="Какво планирате? (по желание) — напр. кухня, гардероб, цял дом…"
+                    rows={3}
                     className={`${inputClass} resize-none`}
                   />
                 </div>
@@ -118,10 +119,10 @@ export default function Contact() {
                   disabled={mutation.isPending}
                   className="w-full rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-4 text-base font-bold text-white shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {mutation.isPending ? "Изпращане…" : "Изпрати запитване"}
+                  {mutation.isPending ? "Изпращане…" : "Запишете безплатен оглед"}
                 </button>
                 <p className="text-center text-xs text-neutral-400">
-                  Данните ви се използват единствено за връзка с вас.
+                  Без ангажимент. Данните ви се използват само за връзка с вас.
                 </p>
               </form>
             )}
@@ -140,9 +141,9 @@ export default function Contact() {
             </div>
 
             <div className="rounded-3xl bg-gradient-to-br from-brand-500 to-brand-600 p-8 text-white shadow-xl">
-              <h3 className="font-heading text-2xl font-bold leading-tight">Имате нужда от помощ?</h3>
+              <h3 className="font-heading text-2xl font-bold leading-tight">Предпочитате да се чуем?</h3>
               <p className="mt-3 text-white/90">
-                Обадете ни се директно — ще отговорим на всичките ви въпроси и ще ви насочим.
+                Обадете ни се директно — ще отговорим на въпросите ви и ще запишем час за оглед.
               </p>
               <a
                 href="tel:+359888133513"
@@ -153,7 +154,7 @@ export default function Contact() {
               </a>
               <div className="mt-6 flex items-center gap-2 text-sm text-white/90">
                 <MapPin className="h-5 w-5" />
-                гр. Стара Загора, България
+                Оглед на място · Стара Загора и региона
               </div>
             </div>
           </div>

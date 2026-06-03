@@ -13,10 +13,10 @@ export default function ContactFormButton() {
           <div className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-black/10" />
 
           <h2 className="relative font-heading text-3xl font-bold leading-tight text-white sm:text-4xl">
-            Готови сте за дома на мечтите си?
+            Запишете безплатен оглед на място
           </h2>
           <p className="relative mx-auto mt-4 max-w-xl text-lg text-white/90">
-            Оставете данните си и получете безплатна консултация. Първата стъпка към перфектните мебели е на едно кликване.
+            Оставете телефон и ще се обадим да уговорим оглед — взимаме размери и ви даваме оферта, без ангажимент.
           </p>
 
           <div className="relative mt-8 flex justify-center">
@@ -24,14 +24,14 @@ export default function ContactFormButton() {
               href="/#contact"
               className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-brand-600 shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
             >
-              Свържете се с нас
+              Запишете безплатен оглед
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
 
           <p className="relative mt-6 inline-flex items-center gap-2 text-sm font-medium text-white/80">
             <Clock className="h-4 w-4" />
-            Отговаряме на запитванията в рамките на работния ден.
+            Безплатен оглед на място — само за Стара Загора и региона.
           </p>
         </div>
       </Reveal>

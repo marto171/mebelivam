@@ -34,7 +34,7 @@ export default function FloatingCTA() {
           className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-4 py-3 text-sm font-bold text-white shadow-lg"
         >
           <CalendarCheck className="h-5 w-5" />
-          Безплатна консултация
+          Безплатен оглед
         </button>
       </div>
     </div>

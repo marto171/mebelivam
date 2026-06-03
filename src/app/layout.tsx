@@ -12,14 +12,15 @@ const eb_garamond = EB_Garamond({
 });
 
 const SITE_URL = "https://www.mebelivam.com";
+const TITLE = "Мебели по поръчка в Стара Загора | Мебели ВаМ";
 const DESCRIPTION =
-  "Мебели по поръчка, изработени до милиметър за вашето пространство. Кухни, гардероби и обзавеждане за цял дом — безплатна консултация, дизайн визуализация и професионален монтаж.";
+  "Кухни и мебели по поръчка в Стара Загора — изработени до милиметър. Запишете безплатен оглед на място, получете 3D визуализация и оферта без ангажимент.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     template: "%s / Мебели ВаМ ЕООД",
-    default: "Мебели ВаМ — Мебели по поръчка за вашия дом",
+    default: TITLE,
   },
   description: DESCRIPTION,
   keywords: [
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     locale: "bg_BG",
     url: SITE_URL,
     siteName: "Мебели ВаМ",
-    title: "Мебели ВаМ — Мебели по поръчка за вашия дом",
+    title: TITLE,
     description: DESCRIPTION,
     images: [
       {
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Мебели ВаМ — Мебели по поръчка за вашия дом",
+    title: TITLE,
     description: DESCRIPTION,
     images: ["/og-image.jpg"],
   },

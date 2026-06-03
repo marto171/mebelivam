@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="md:col-span-1">
             <Logo markClassName="h-10 w-10" textClassName="text-2xl" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-neutral-600">
-              Мебели по поръчка, изработени до милиметър за вашия дом — с грижа, прецизност и стил.
+              Мебели по поръчка в Стара Загора — изработени до милиметър за вашия дом, с грижа и прецизност.
             </p>
           </div>
 

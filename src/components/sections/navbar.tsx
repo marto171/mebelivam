@@ -132,7 +132,7 @@ export const Navbar = () => {
               onClick={() => scrollToSection("contact")}
               className="rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-500/20 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-500/30"
             >
-              Безплатна консултация
+              Безплатен оглед
             </button>
           </div>
 
@@ -217,7 +217,7 @@ export const Navbar = () => {
                   onClick={() => handleMobileNavClick("contact")}
                   className="w-full rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-3 text-base font-bold text-white shadow-md"
                 >
-                  Безплатна консултация
+                  Безплатен оглед
                 </button>
               </div>
             </div>

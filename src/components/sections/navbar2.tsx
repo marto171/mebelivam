@@ -124,7 +124,7 @@ export const Navbar2 = () => {
               href="/#contact"
               className="rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-brand-500/20 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-500/30"
             >
-              Безплатна консултация
+              Безплатен оглед
             </Link>
           </div>
 
@@ -211,7 +211,7 @@ export const Navbar2 = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="block rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-3 text-center text-base font-bold text-white shadow-md"
                 >
-                  Безплатна консултация
+                  Безплатен оглед
                 </Link>
               </div>
             </div>
