@@ -8,7 +8,7 @@ function toE164(phone: string): string {
 }
 
 export async function POST(request: Request) {
-    const { name, phone, city, message, email } = await request.json();
+    const { name, phone, city, message, email, source } = await request.json();
 
     // Минимум триене: задължителни са само име и телефон.
     if (!name || !phone) {
@@ -27,73 +27,104 @@ export async function POST(request: Request) {
         'Accept': 'application/json',
     };
 
-    try {
-        // 1. Известие до собственика (КРИТИЧНО — така се хваща лидът, винаги).
-        const adminRes = await axios.post(
-            'https://api.brevo.com/v3/smtp/email',
-            {
-                sender: { name: process.env.BREVO_SENDER_NAME, email: process.env.BREVO_SENDER_EMAIL },
-                to: [{ email: process.env.BREVO_ADMIN_EMAIL!, name: 'Admin' }],
-                templateId: ADMIN_TEMPLATE_ID,
-                params: {
-                    NAME: name,
-                    PHONE: formattedPhone,
-                    CITY: city || '',
-                    MESSAGE: message || '',
-                    EMAIL: email || '',
+    // Каналите за хващане на лида вървят ПАРАЛЕЛНО.
+    // Заявката е успешна, ако поне един от тях мине.
+    const captures: Promise<unknown>[] = [];
+
+    // 1) Google Sheets (Apps Script webhook)
+    if (process.env.SHEETS_WEBHOOK_URL) {
+        captures.push(
+            axios.post(
+                process.env.SHEETS_WEBHOOK_URL,
+                {
+                    source: source || 'сайт',
+                    name,
+                    phone: formattedPhone,
+                    email: email || '',
+                    message: message || '',
+                    room: city || '',
                 },
-            },
-            { headers: brevoHeaders },
+                { timeout: 10000 },
+            ),
         );
-
-        if (adminRes.status !== 201) {
-            return NextResponse.json({ error: 'Неуспешно изпращане на запитването.' }, { status: 500 });
-        }
-
-        // 2. По желание (само ако има имейл): добавяне в Brevo + потвърждение към клиента.
-        //    Грешки тук НЕ провалят заявката — лидът вече е получен от собственика.
-        if (hasEmail) {
-            try {
-                await axios.post(
-                    'https://api.brevo.com/v3/contacts',
-                    {
-                        updateEnabled: true,
-                        attributes: {
-                            FIRSTNAME: name,
-                            PHONE: formattedPhone,
-                            CITY: city || '',
-                            MESSAGE: message || '',
-                        },
-                        listIds: [2],
-                        email,
-                    },
-                    { headers: brevoHeaders },
-                );
-            } catch {
-                // игнорирай — не е критично
-            }
-
-            try {
-                await axios.post(
-                    'https://api.brevo.com/v3/smtp/email',
-                    {
-                        sender: { name: process.env.BREVO_SENDER_NAME, email: process.env.BREVO_SENDER_EMAIL },
-                        to: [{ email }],
-                        templateId: CLIENT_TEMPLATE_ID,
-                    },
-                    { headers: brevoHeaders },
-                );
-            } catch {
-                // игнорирай — не е критично
-            }
-        }
-
-        return NextResponse.json({ success: true, message: 'Успешно изпратено!' });
-    } catch (error: unknown) {
-        if (axios.isAxiosError(error) && error.response && error.response.data) {
-            const msg = error.response.data.message || error.response.data.error || 'Възникна грешка при изпращане.';
-            return NextResponse.json({ error: msg }, { status: error.response.status });
-        }
-        return NextResponse.json({ error: (error as Error).message || 'Сървърна грешка' }, { status: 500 });
     }
+
+    // 2) Имейл известие до собственика (Brevo)
+    if (process.env.BREVO_API_KEY && process.env.BREVO_ADMIN_EMAIL) {
+        captures.push(
+            axios.post(
+                'https://api.brevo.com/v3/smtp/email',
+                {
+                    sender: { name: process.env.BREVO_SENDER_NAME, email: process.env.BREVO_SENDER_EMAIL },
+                    to: [{ email: process.env.BREVO_ADMIN_EMAIL!, name: 'Admin' }],
+                    templateId: ADMIN_TEMPLATE_ID,
+                    params: {
+                        NAME: name,
+                        PHONE: formattedPhone,
+                        CITY: city || '',
+                        MESSAGE: message || '',
+                        EMAIL: email || '',
+                    },
+                },
+                { headers: brevoHeaders, timeout: 10000 },
+            ),
+        );
+    }
+
+    if (captures.length === 0) {
+        return NextResponse.json(
+            { error: 'Формата не е конфигурирана. Моля, обадете се на телефона.' },
+            { status: 500 },
+        );
+    }
+
+    const settled = await Promise.allSettled(captures);
+    const captured = settled.some((s) => s.status === 'fulfilled');
+
+    if (!captured) {
+        return NextResponse.json(
+            { error: 'Грешка при изпращане. Моля, опитайте пак или ни се обадете.' },
+            { status: 500 },
+        );
+    }
+
+    // 3) По желание (само ако има имейл): Brevo контакт + потвърждение до клиента.
+    //    Грешки тук НЕ провалят заявката — лидът вече е хванат.
+    if (hasEmail && process.env.BREVO_API_KEY) {
+        try {
+            await axios.post(
+                'https://api.brevo.com/v3/contacts',
+                {
+                    updateEnabled: true,
+                    attributes: {
+                        FIRSTNAME: name,
+                        PHONE: formattedPhone,
+                        CITY: city || '',
+                        MESSAGE: message || '',
+                    },
+                    listIds: [2],
+                    email,
+                },
+                { headers: brevoHeaders, timeout: 10000 },
+            );
+        } catch {
+            // не е критично
+        }
+
+        try {
+            await axios.post(
+                'https://api.brevo.com/v3/smtp/email',
+                {
+                    sender: { name: process.env.BREVO_SENDER_NAME, email: process.env.BREVO_SENDER_EMAIL },
+                    to: [{ email }],
+                    templateId: CLIENT_TEMPLATE_ID,
+                },
+                { headers: brevoHeaders, timeout: 10000 },
+            );
+        } catch {
+            // не е критично
+        }
+    }
+
+    return NextResponse.json({ success: true, message: 'Успешно изпратено!' });
 }

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,13 +37,24 @@ export default function Contact() {
     reset,
   } = useForm<ContactFormData>({ resolver: zodResolver(schema) });
 
+  // Източник на лида (UTM от рекламата) — отива в колоната „Източник" в таблицата.
+  const [source, setSource] = useState("сайт");
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const parts = ["utm_source", "utm_medium", "utm_campaign"]
+      .map((k) => p.get(k))
+      .filter(Boolean) as string[];
+    if (!parts.length && p.get("fbclid")) parts.push("facebook");
+    if (parts.length) setSource(parts.join(" / "));
+  }, []);
+
   const mutation = useMutation<SubscribeResponse, Error, ContactFormData>({
     mutationFn: async (data) => {
       const formattedPhone = toE164(data.phone);
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, phone: formattedPhone }),
+        body: JSON.stringify({ ...data, phone: formattedPhone, source }),
       });
       let json;
       try {
