@@ -1,79 +1,155 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import realImages from "./real-images";
 import vizImages from "./viz-images";
-import { ChevronLeft, ChevronRight, PencilRuler } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, PencilRuler, ChevronDown } from "lucide-react";
 import ContactFormButton from "@/components/ui/contact-form-button";
 import { Subheading } from "@/components/ui/subheading";
 import { Heading } from "@/components/ui/heading";
 import Reveal from "@/components/ui/reveal";
 
-export default function Page() {
-  const [currentImage, setCurrentImage] = useState(0);
-  const totalImages = realImages.length;
+const INITIAL_COUNT = 12;
 
-  const nextImage = () => setCurrentImage((prev) => (prev + 1) % totalImages);
-  const prevImage = () => setCurrentImage((prev) => (prev - 1 + totalImages) % totalImages);
+export default function Page() {
+  const [showAll, setShowAll] = useState(false);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+
+  const visibleImages = showAll ? realImages : realImages.slice(0, INITIAL_COUNT);
+
+  const close = useCallback(() => setLightbox(null), []);
+  const prev = useCallback(
+    () => setLightbox((i) => (i === null ? null : (i - 1 + realImages.length) % realImages.length)),
+    [],
+  );
+  const next = useCallback(
+    () => setLightbox((i) => (i === null ? null : (i + 1) % realImages.length)),
+    [],
+  );
+
+  // Клавиатура + заключване на скрола, докато лайтбоксът е отворен
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [lightbox, close, prev, next]);
 
   return (
     <>
-      {/* ===== Реални завършени проекти ===== */}
+      {/* ===== Завършени проекти — masonry ===== */}
       <section className="bg-white px-5 py-16 sm:px-8">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
-            <Subheading>Нашата работа</Subheading>
-            <Heading>Реални завършени проекти</Heading>
+            <Subheading>Портфолио</Subheading>
+            <Heading>Истински домове. Истинска изработка.</Heading>
             <p className="mx-auto mt-3 max-w-3xl text-lg text-neutral-600">
-              Кухни, гардероби и обзавеждане, изработени по поръчка и монтирани при наши клиенти.
-              Започваме с най-скорошните.
+              Всяка снимка е от дома на наш клиент — кухни, гардероби и цялостно обзавеждане по
+              поръчка. Най-новите проекти са първи. Кликнете върху снимка, за да я разгледате.
             </p>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl shadow-2xl ring-1 ring-black/5">
-            <div className="relative h-96 md:h-[500px] lg:h-[600px]">
-              <div className="absolute inset-0">
-                <Image
-                  src={realImages[currentImage]}
-                  alt={`Реален проект ${currentImage + 1} — мебели по поръчка от Мебели ВаМ`}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 768px) 100vw, 900px"
-                  priority
-                />
-              </div>
+          <div className="columns-1 gap-5 sm:columns-2 lg:columns-3">
+            {visibleImages.map((img, i) => (
+              <Reveal key={img.src} delay={(i % 3) * 70} className="mb-5 break-inside-avoid">
+                <button
+                  type="button"
+                  onClick={() => setLightbox(i)}
+                  className="group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl shadow-md ring-1 ring-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+                  aria-label={`Разгледай проект ${i + 1}`}
+                >
+                  <Image
+                    src={img.src}
+                    alt={`Завършен проект ${i + 1} — мебели по поръчка от Мебели ВаМ`}
+                    width={img.w}
+                    height={img.h}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+                    className="h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                  />
+                  <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  {i < 6 && (
+                    <span className="absolute left-3 top-3 rounded-full bg-brand-500 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow">
+                      Ново
+                    </span>
+                  )}
+                </button>
+              </Reveal>
+            ))}
+          </div>
 
-              {/* Брояч */}
-              <div className="absolute top-4 right-4 z-10 rounded-full bg-black/60 px-4 py-2 text-sm font-semibold text-white shadow-lg">
-                {currentImage + 1} / {totalImages}
-              </div>
-
-              {/* Стрелки */}
+          {!showAll && (
+            <div className="mt-10 text-center">
               <button
-                onClick={prevImage}
-                className="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg transition-all duration-200 hover:bg-white hover:shadow-xl"
-                aria-label="Предишна снимка"
+                onClick={() => setShowAll(true)}
+                className="group inline-flex items-center gap-2 rounded-full border-2 border-neutral-300 px-7 py-4 text-base font-semibold text-neutral-800 transition-all hover:border-brand-500 hover:text-brand-600"
               >
-                <ChevronLeft className="h-6 w-6 text-neutral-700" />
-              </button>
-              <button
-                onClick={nextImage}
-                className="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg transition-all duration-200 hover:bg-white hover:shadow-xl"
-                aria-label="Следваща снимка"
-              >
-                <ChevronRight className="h-6 w-6 text-neutral-700" />
+                Покажи всички проекти ({realImages.length})
+                <ChevronDown className="h-5 w-5 transition-transform group-hover:translate-y-0.5" />
               </button>
             </div>
-          </div>
-
-          <div className="mt-10 text-center">
-            <p className="mx-auto max-w-3xl text-lg text-neutral-600">
-              Всеки проект е изпълнен с внимание към детайлите и висококачествени материали — за
-              пространства, които съчетават функционалност и естетика.
-            </p>
-          </div>
+          )}
         </div>
       </section>
+
+      {/* ===== Лайтбокс ===== */}
+      {lightbox !== null && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          onClick={close}
+          role="dialog"
+          aria-modal="true"
+        >
+          <button
+            onClick={close}
+            aria-label="Затвори"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <div className="absolute left-1/2 top-4 -translate-x-1/2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-white">
+            {lightbox + 1} / {realImages.length}
+          </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              prev();
+            }}
+            aria-label="Предишна"
+            className="absolute left-3 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25 sm:left-6"
+          >
+            <ChevronLeft className="h-7 w-7" />
+          </button>
+          <div className="relative h-[82vh] w-[92vw] max-w-5xl" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={realImages[lightbox].src}
+              alt={`Завършен проект ${lightbox + 1} — Мебели ВаМ`}
+              fill
+              sizes="92vw"
+              className="object-contain"
+              priority
+            />
+          </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              next();
+            }}
+            aria-label="Следваща"
+            className="absolute right-3 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25 sm:right-6"
+          >
+            <ChevronRight className="h-7 w-7" />
+          </button>
+        </div>
+      )}
 
       {/* ===== Проектни визуализации ===== */}
       <section className="bg-warm px-5 py-16 sm:px-8 sm:py-20">
