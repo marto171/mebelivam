@@ -49,7 +49,7 @@ export default function Testimonials() {
                   ))}
                 </div>
                 <blockquote className="flex-1 text-lg leading-relaxed text-neutral-700">
-                  „{t.quote}"
+                  {`„${t.quote}"`}
                 </blockquote>
                 <figcaption className="mt-5 border-t border-neutral-100 pt-4">
                   <p className="font-bold text-neutral-900">{t.name}</p>
