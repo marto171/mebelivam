@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Премиум монограм за МебелиВам — „ВаМ" върху топъл брандов градиент.
+ * Премиум монограм за МебелиВам — „В" върху топъл брандов градиент.
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -22,16 +22,15 @@ export function LogoMark({ className }: { className?: string }) {
       <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#mvGrad)" />
       <text
         x="24"
-        y="25"
+        y="25.5"
         textAnchor="middle"
         dominantBaseline="central"
         fill="#ffffff"
         fontWeight="700"
-        fontSize="18"
-        letterSpacing="-0.5"
+        fontSize="27"
         style={{ fontFamily: "var(--font-heading), Georgia, serif" }}
       >
-        ВаМ
+        В
       </text>
     </svg>
   );
