@@ -1,4 +1,11 @@
 const realImages = [
+  // Най-скорошни проекти (2026) — показват се първи
+  "/mebelivam-img/реални-завършени/recent-1.jpg",
+  "/mebelivam-img/реални-завършени/recent-2.jpg",
+  "/mebelivam-img/реални-завършени/recent-3.jpg",
+  "/mebelivam-img/реални-завършени/recent-4.jpg",
+  "/mebelivam-img/реални-завършени/recent-5.jpg",
+  "/mebelivam-img/реални-завършени/recent-6.jpg",
   "/mebelivam-img/реални-завършени/img-1.jpg",
   "/mebelivam-img/реални-завършени/img-2.jpg",
   "/mebelivam-img/реални-завършени/img-3.jpg",
