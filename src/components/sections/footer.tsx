@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Phone, MapPin } from "lucide-react";
+import { Phone, MapPin, Facebook } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import scrollToSection from "@/utils/scrollTo";
@@ -70,6 +70,15 @@ export default function Footer() {
                 <MapPin className="mt-0.5 h-5 w-5 flex-none text-brand-500" />
                 гр. Стара Загора, България
               </div>
+              <a
+                href="https://www.facebook.com/profile.php?id=61567083981259"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-neutral-700 hover:text-brand-600"
+              >
+                <Facebook className="h-5 w-5 flex-none text-brand-500" />
+                Мебели ВаМ във Facebook
+              </a>
             </div>
           </div>
         </div>

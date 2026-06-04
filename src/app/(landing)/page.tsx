@@ -5,6 +5,7 @@ import Services from "@/components/sections/services";
 import Info from "@/components/sections/info";
 import ContactFormButton from "@/components/ui/contact-form-button";
 import About from "@/components/sections/about";
+import Testimonials from "@/components/sections/testimonials";
 import FAQ from "@/components/sections/faq";
 import Contact from "@/components/sections/contact";
 import Footer from "@/components/sections/footer";
@@ -25,6 +26,7 @@ export default function Page() {
       <section id="about" className="section">
         <About />
       </section>
+      <Testimonials />
       <section id="faq" className="section">
         <FAQ />
       </section>
