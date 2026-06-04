@@ -1,9 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Премиум монограм за МебелиВам.
- * Запазва концепцията от оригинала — геометрични „пикове", изграждащи буквата „M"
- * (дом + мебел) — но в изчистен, скулптурен вид с топъл брандов градиент.
+ * Премиум монограм за МебелиВам — „ВаМ" върху топъл брандов градиент.
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -22,14 +20,19 @@ export function LogoMark({ className }: { className?: string }) {
         </linearGradient>
       </defs>
       <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#mvGrad)" />
-      <path
-        d="M13 34V16.5C13 15.4 14.25 14.77 15.13 15.43L24 22.2L32.87 15.43C33.75 14.77 35 15.4 35 16.5V34"
-        stroke="white"
-        strokeWidth="3.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="24" cy="33.5" r="2.15" fill="white" />
+      <text
+        x="24"
+        y="25"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fill="#ffffff"
+        fontWeight="700"
+        fontSize="18"
+        letterSpacing="-0.5"
+        style={{ fontFamily: "var(--font-heading), Georgia, serif" }}
+      >
+        ВаМ
+      </text>
     </svg>
   );
 }

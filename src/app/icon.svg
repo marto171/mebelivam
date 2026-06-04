@@ -7,7 +7,7 @@
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="48" height="48" rx="12" fill="url(#g)"/>
-  <path d="M13 34V16.5C13 15.4 14.25 14.77 15.13 15.43L24 22.2L32.87 15.43C33.75 14.77 35 15.4 35 16.5V34"
-        stroke="white" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <circle cx="24" cy="33.5" r="2.15" fill="white"/>
+  <text x="24" y="25" text-anchor="middle" dominant-baseline="central" fill="#ffffff"
+        font-weight="bold" font-size="19" letter-spacing="-0.5"
+        font-family="Georgia, 'Times New Roman', serif">ВаМ</text>
 </svg>
