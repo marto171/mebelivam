@@ -39,7 +39,8 @@ export async function POST(request: Request) {
                 {
                     source: source || 'сайт',
                     name,
-                    phone: formattedPhone,
+                    // водещият апостроф кара Sheets да пази номера като текст (иначе „+" изпада)
+                    phone: "'" + formattedPhone,
                     email: email || '',
                     message: message || '',
                     room: city || '',
