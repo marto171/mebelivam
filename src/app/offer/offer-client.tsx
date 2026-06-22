@@ -39,14 +39,14 @@ function toE164(phone: string): string {
   return "+359" + phone;
 }
 
-export default function ProektClient() {
+export default function OfferClient() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
-  const [source, setSource] = useState("фуния /proekt");
+  const [source, setSource] = useState("фуния /offer");
 
   // Източник на лида — UTM от рекламата отива в колоната „Източник".
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function ProektClient() {
       .map((k) => p.get(k))
       .filter(Boolean) as string[];
     if (!parts.length && p.get("fbclid")) parts.push("facebook");
-    setSource(parts.length ? `проект · ${parts.join(" / ")}` : "фуния /proekt");
+    setSource(parts.length ? `оферта · ${parts.join(" / ")}` : "фуния /offer");
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
