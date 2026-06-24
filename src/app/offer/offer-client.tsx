@@ -82,7 +82,7 @@ export default function OfferClient() {
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(json.error || "Грешка при изпращане.");
-      // По желание: ако по-късно се сложи Meta Pixel, реги-събитието се хваща автоматично.
+      // Meta Pixel е инсталиран в layout.tsx — реги-събитието се изпраща при успешен лид.
       if (typeof window !== "undefined" && typeof (window as unknown as { fbq?: unknown }).fbq === "function") {
         (window as unknown as { fbq: (...a: unknown[]) => void }).fbq("track", "CompleteRegistration");
       }
