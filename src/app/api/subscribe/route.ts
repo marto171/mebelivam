@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { notifyPortal } from '@/lib/mg-portal';
 import axios from 'axios';
 
 function toE164(phone: string): string {
@@ -126,6 +127,14 @@ export async function POST(request: Request) {
             // не е критично
         }
     }
+
+    await notifyPortal({
+        name,
+        phone: formattedPhone,
+        email: hasEmail ? email : null,
+        message: [city && `Град: ${city}`, message].filter(Boolean).join('\n'),
+        source: source || 'Форма на сайта',
+    });
 
     return NextResponse.json({ success: true, message: 'Успешно изпратено!' });
 }
