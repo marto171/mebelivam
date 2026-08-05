@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PortalPulse from "@/components/PortalPulse";
 import { Inter } from "next/font/google";
 import { EB_Garamond } from "next/font/google";
 import Script from "next/script";
@@ -98,6 +99,7 @@ fbq('track', 'PageView');`}
         <ReactQueryProvider>
           <main className="relative flex-1 flex flex-col">{children}</main>
         </ReactQueryProvider>
+              <PortalPulse />
       </body>
     </html>
   );
