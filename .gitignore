@@ -43,3 +43,6 @@ next-env.d.ts
 # local source media (видео/снимки за продукция, не за сайта)
 /docs/mebelivam-assets/
 /docs/*.mp4
+
+# договори и вътрешни документи (не се качват — публично repo)
+/docs/dogovor-klienti/
