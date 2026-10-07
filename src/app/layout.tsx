@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Biskvitki, { СЪГЛАСИЕ_ПО_ПОДРАЗБИРАНЕ, ПИКСЕЛ_ИЗЧАКВА } from "@/components/Biskvitki";
 import PortalPulse from "@/components/PortalPulse";
 import { Inter } from "next/font/google";
 import { EB_Garamond } from "next/font/google";
@@ -69,6 +70,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bg" className={cn(inter.variable, eb_garamond.variable)}>
+      <head>
+        {/* Първо съгласието (Consent Mode v2), после маркерите. */}
+        <script dangerouslySetInnerHTML={{ __html: СЪГЛАСИЕ_ПО_ПОДРАЗБИРАНЕ }} />
+      </head>
       <body className="min-h-[calc(100vh-1px)] flex flex-col overflow-x-hidden font-sans bg-white text-neutral-900 antialiased">
         {/* Meta Pixel */}
         <Script id="meta-pixel" strategy="afterInteractive">
@@ -80,19 +85,10 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
+${ПИКСЕЛ_ИЗЧАКВА}
 fbq('init', '${FB_PIXEL_ID}');
 fbq('track', 'PageView');`}
         </Script>
-        <noscript>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src={`https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`}
-            alt=""
-          />
-        </noscript>
         <noscript>
           <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
         </noscript>
@@ -100,6 +96,7 @@ fbq('track', 'PageView');`}
           <main className="relative flex-1 flex flex-col">{children}</main>
         </ReactQueryProvider>
               <PortalPulse />
+        <Biskvitki акцент="#e06f12" />
       </body>
     </html>
   );
