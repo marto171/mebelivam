@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Biskvitki, { СЪГЛАСИЕ_ПО_ПОДРАЗБИРАНЕ, ПИКСЕЛ_ИЗЧАКВА } from "@/components/Biskvitki";
+import Biskvitki from "@/components/Biskvitki";
+import { СЪГЛАСИЕ_ПО_ПОДРАЗБИРАНЕ, ПИКСЕЛ_ИЗЧАКВА } from "@/lib/saglasie";
 import PortalPulse from "@/components/PortalPulse";
 import { Inter } from "next/font/google";
 import { EB_Garamond } from "next/font/google";
