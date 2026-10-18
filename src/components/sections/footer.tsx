@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import scrollToSection from "@/utils/scrollTo";
 
+import MGBadge from "@/components/MGBadge";
 export default function Footer() {
   return (
     <footer className="border-t border-neutral-200 bg-neutral-50">
@@ -88,6 +89,11 @@ export default function Footer() {
           <p className="text-sm text-neutral-400">Изработка по поръчка · Дизайн · Монтаж</p>
         </div>
       </div>
-    </footer>
+            {/* Изработка MG Enterprise. Слъгът влиза в адреса и показва от
+            кой готов проект е дошла заявката. */}
+        <div style={{ display: "flex", justifyContent: "center", padding: "18px 16px 24px" }}>
+          <MGBadge slug="mebeli-vam" />
+        </div>
+      </footer>
   );
 }
